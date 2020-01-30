@@ -6,7 +6,6 @@ const Header = props => {
 
   const username = props.user;
   const generateHeaderContent = () => {
-    console.log(username)
     if (username === "" || username === undefined) {
       return props.local.welcomeMessage;
     } else {
