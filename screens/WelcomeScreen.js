@@ -3,46 +3,45 @@ import {
   View,
   StyleSheet,
   TextInput,
-  Picker,
   Text,
   Button,
-  TouchableHighlight,
   Image,
   TouchableOpacity,
-  TouchableWithoutFeedback,
-  Keyboard
 } from "react-native";
 import textStyle from "../constants/textStyle";
 import colors from "../constants/colors";
 import DismissKeyboard from "../components/DismissKeyboard";
+import Local from "../locals/localisation";
+import Header from "../components/Header";
 
-const WelcomeScreen = props => {
+const WelcomeScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
+  const [languageState, setLanguageState] = useState(Local.en)
   const [lvLanguageStatus, setLvLanguageStatus] = useState(false);
   const [enLanguageStatus, setEnLanguageStatus] = useState(false);
   const onLanguageSelect = lang => {
     if (lang === "en") {
+      setLanguageState(Local.en)
       setEnLanguageStatus(true);
       setLvLanguageStatus(false);
-      props.onLanguageChange("en");
     } else if (lang === "lv") {
+      setLanguageState(Local.lv)
       setLvLanguageStatus(true);
       setEnLanguageStatus(false);
-      props.onLanguageChange("lv");
     }
   };
 
-  const onWelcomeConfirmHandler = () => {
-    props.onCompleteWelcome(username);
-  };
+  const navigationHandler = () => {
+    navigation.navigate("ToDoList", { lang: languageState, user: username })
+  }
 
   const userInputHandler = inputText => {
     setUsername(inputText);
-    console.log(inputText);
   };
   return (
     <DismissKeyboard>
       <View style={styles.screen}>
+        <Header user={username} local={languageState} />
         <View style={styles.languageContainer}>
           <TouchableOpacity onPress={onLanguageSelect.bind(this, "lv")}>
             <View
@@ -53,7 +52,7 @@ const WelcomeScreen = props => {
               }
             >
               <Image source={require("../assets/Latvia.png")} />
-              <Text style={textStyle.regularText}>{props.local.lat}</Text>
+              <Text style={textStyle.regularText}>{languageState.lat}</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity onPress={onLanguageSelect.bind(this, "en")}>
@@ -65,23 +64,24 @@ const WelcomeScreen = props => {
               }
             >
               <Image source={require("../assets/United-Kingdom.png")} />
-              <Text style={textStyle.regularText}>{props.local.eng}</Text>
+              <Text style={textStyle.regularText}>{languageState.eng}</Text>
             </View>
           </TouchableOpacity>
         </View>
         <View style={styles.usernameInputContainer}>
-          <Text style={textStyle.regularText}>{props.local.name}: </Text>
+          <Text style={textStyle.regularText}>{languageState.name}: </Text>
           <TextInput
             style={styles.usernameInput}
             onChangeText={userInputHandler}
-            placeholder={props.local.inputNamePlaceholder}
+            placeholder={languageState.inputNamePlaceholder}
+            value={username}
           ></TextInput>
         </View>
         <View style={styles.confirmButton}>
           <Button
-            title={props.local.confirm}
+            title={languageState.confirm}
             color={colors.green}
-            onPress={onWelcomeConfirmHandler}
+            onPress={navigationHandler}
           />
         </View>
       </View>
@@ -89,29 +89,35 @@ const WelcomeScreen = props => {
   );
 };
 
+
+
 const styles = StyleSheet.create({
   screen: {
-    flex: 1
+    flex: 1,
+    alignItems: "center",
+    paddingTop: 30
   },
   languageContainer: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-evenly",
     paddingTop: 100,
-    paddingBottom: 50
+    paddingBottom: 30,
+    width: "80%"
   },
   languageItem: {
     alignItems: "center",
-    justifyContent: "center"
   },
   selectedLanguageItem: {
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: colors.green,
-    borderRadius: 10
+    borderRadius: 10,
+    padding: 10
   },
   usernameInputContainer: {
     flexDirection: "row",
-    alignItems: "flex-end"
+    alignItems: "flex-end",
+    justifyContent: "center"
   },
   usernameInput: {
     borderBottomWidth: 1,

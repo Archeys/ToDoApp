@@ -3,18 +3,17 @@ import { View, StyleSheet, FlatList, Button } from "react-native";
 import ToDoInput from "../components/ToDoInput";
 import ToDoItem from "../components/ToDoItem";
 import ToDoEdit from "../components/ToDoEdit";
+import Header from "../components/Header";
 
-const ToDoListScreen = props => {
+const ToDoListScreen = ({ navigation }) => {
   const [toDoList, setToDoList] = useState([]);
-  const [completedList, setCompletedList] = useState([]);
   const [isToDoAddMode, setIsToDoAddMode] = useState(false);
   const [renderStatus, setRenderStatus] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [itemToEdit, setItemToEdit] = useState({ id: 0.1, value: "" });
+  const [languageState, setLanguageState] = useState(navigation.getParam("lang"))
+  const [username, setUserName] = useState(navigation.getParam("user"))
 
-  const getItemToEdit = () => {
-    return itemToEdit;
-  };
 
   const addToDoHandler = ToDoTitle => {
     setToDoList(currentTasks => [
@@ -33,12 +32,16 @@ const ToDoListScreen = props => {
   };
 
   const editItemHandler = (toDoId, changedValue) => {
+    console.log("changing item....")
     setToDoList(currentTasks =>
       currentTasks.map(item =>
         item.id === toDoId ? { ...item, value: changedValue } : item
       )
     );
+    console.log("changed item!")
+    console.log("Closing...")
     setIsEditMode(false);
+    console.log("Closed!")
   };
 
   const editDataHandler = (toDoId, toDoValue) => {
@@ -46,6 +49,10 @@ const ToDoListScreen = props => {
 
     setIsEditMode(true);
   };
+
+  const onTextEdit = (text) => {
+    setItemToEdit(currentItem => currentItem = { ...currentItem, value: text })
+  }
 
   const closeToDoAdditionHandler = () => {
     setIsToDoAddMode(false);
@@ -57,8 +64,9 @@ const ToDoListScreen = props => {
 
   return (
     <View style={styles.screen}>
+      <Header user={username} local={languageState} />
       <Button
-        title={props.local.addTask}
+        title={languageState.addTask}
         onPress={() => setIsToDoAddMode(true)}
       ></Button>
       <FlatList
@@ -73,7 +81,7 @@ const ToDoListScreen = props => {
             title={itemData.item.value}
             onComplete={completeToDoHandler}
             onEdit={editDataHandler}
-            local={props.local}
+            local={languageState}
             completeState={renderStatus}
           />
         )}
@@ -82,18 +90,19 @@ const ToDoListScreen = props => {
         onClose={closeToDoAdditionHandler}
         onAddToDo={addToDoHandler}
         visible={isToDoAddMode}
-        local={props.local}
+        local={languageState}
       />
       <ToDoEdit
         onEdit={editItemHandler}
-        toDoData={getItemToEdit()}
+        onTextChange={onTextEdit}
+        toDoData={itemToEdit}
         visible={isEditMode}
-        local={props.local}
+        local={languageState}
         onClose={closeEditModeHandler}
       />
       <View style={styles.switchContainer}>
         <Button
-          title={!renderStatus ? props.local.showDone : props.local.showToDo}
+          title={!renderStatus ? languageState.showDone : languageState.showToDo}
           onPress={() => {
             setRenderStatus(!renderStatus);
           }}

@@ -3,9 +3,20 @@ import { View, StyleSheet, Text } from "react-native";
 import colors from "../constants/colors";
 
 const Header = props => {
+
+  const username = props.user;
+  const generateHeaderContent = () => {
+    console.log(username)
+    if (username === "" || username === undefined) {
+      return props.local.welcomeMessage;
+    } else {
+      return props.local.welcome + username + "!";
+    }
+  }
+
   return (
     <View style={styles.header}>
-      <Text style={styles.headerText}>{props.title}</Text>
+      <Text style={styles.headerText}>{generateHeaderContent()}</Text>
     </View>
   );
 };

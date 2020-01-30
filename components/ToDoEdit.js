@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import { View, TextInput, StyleSheet, Button, Modal } from "react-native";
+import { View, TextInput, StyleSheet, Button, Modal, Keyboard } from "react-native";
 import ToDoItem from "./ToDoItem";
 import colors from "../constants/colors";
 
 const ToDoEdit = props => {
-  const [enteredTask, setEnteredTask] = useState(props.toDoData.value);
+
   const taskInputHander = enteredText => {
-    setEnteredTask(enteredText);
+    props.onTextChange(enteredText);
   };
 
   const EditHandler = () => {
-    props.onEdit.bind(this, props.toDoData.id, enteredTask);
+    props.onEdit(props.toDoData.id, props.toDoData.value);
   };
 
   return (
@@ -19,8 +19,8 @@ const ToDoEdit = props => {
         <TextInput
           style={Styles.input}
           onChangeText={taskInputHander}
-          value={enteredTask}
-          key={props.toDoData.value}
+          value={props.toDoData.value}
+
         />
         <View style={Styles.buttonContainer}>
           <View style={Styles.button}>
@@ -59,7 +59,7 @@ const Styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
-    width: "60%"
+    width: "70%"
   },
   button: {
     padding: 10,
