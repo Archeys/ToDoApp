@@ -16,33 +16,33 @@ const ToDoInput = props => {
     setEnteredTask(enteredText);
   };
 
-  const AddToDoHandler = () => {
+  const addToDoHandler = () => {
     props.onAddToDo(enteredTask);
     setEnteredTask("");
   };
 
   return (
     <Modal visible={props.visible} animationType="slide">
-      <View style={Styles.inputContainer}>
+      <View style={styles.inputContainer}>
         <TextInput
           placeholder={props.local.toDoPlaceholder}
-          style={Styles.input}
+          style={styles.input}
           onChangeText={taskInputHander}
           value={enteredTask}
         />
-        <View style={Styles.buttonContainer}>
-          <View style={Styles.button}>
+        <View style={styles.buttonContainer}>
+          <View style={styles.button}>
             <Button
               title={props.local.cancel}
               color={colors.red}
               onPress={props.onClose}
             />
           </View>
-          <View style={Styles.button}>
+          <View style={styles.button}>
             <Button
               title={props.local.confirm}
               color={colors.green}
-              onPress={AddToDoHandler}
+              onPress={addToDoHandler}
             />
           </View>
         </View>
@@ -51,7 +51,7 @@ const ToDoInput = props => {
   );
 };
 
-const Styles = StyleSheet.create({
+const styles = StyleSheet.create({
   input: {
     borderColor: "black",
     borderWidth: 1,

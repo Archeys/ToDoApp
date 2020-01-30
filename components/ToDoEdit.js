@@ -9,32 +9,32 @@ const ToDoEdit = props => {
     props.onTextChange(enteredText);
   };
 
-  const EditHandler = () => {
+  const editHandler = () => {
     props.onEdit(props.toDoData.id, props.toDoData.value);
   };
 
   return (
     <Modal visible={props.visible} animationType="slide">
-      <View style={Styles.inputContainer}>
+      <View style={styles.inputContainer}>
         <TextInput
-          style={Styles.input}
+          style={styles.input}
           onChangeText={taskInputHander}
           value={props.toDoData.value}
 
         />
-        <View style={Styles.buttonContainer}>
-          <View style={Styles.button}>
+        <View style={styles.buttonContainer}>
+          <View style={styles.button}>
             <Button
               title={props.local.cancel}
               color={colors.red}
               onPress={props.onClose}
             />
           </View>
-          <View style={Styles.button}>
+          <View style={styles.button}>
             <Button
               title={props.local.confirm}
               color={colors.green}
-              onPress={EditHandler}
+              onPress={editHandler}
             />
           </View>
         </View>
@@ -43,7 +43,7 @@ const ToDoEdit = props => {
   );
 };
 
-const Styles = StyleSheet.create({
+const styles = StyleSheet.create({
   input: {
     borderColor: "black",
     borderWidth: 1,
