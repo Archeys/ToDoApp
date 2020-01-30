@@ -1,9 +1,7 @@
-import React from 'react';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer } from "react-navigation";
 import WelcomeScreen from '../screens/WelcomeScreen';
 import ToDoListScreen from '../screens/ToDoListScreen';
-import Header from '../components/Header';
 
 const screens = {
     Welcome: {

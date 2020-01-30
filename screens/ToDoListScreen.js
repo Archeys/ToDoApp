@@ -14,7 +14,6 @@ const ToDoListScreen = ({ navigation }) => {
   const [languageState, setLanguageState] = useState(navigation.getParam("lang"))
   const [username, setUserName] = useState(navigation.getParam("user"))
 
-
   const addToDoHandler = ToDoTitle => {
     setToDoList(currentTasks => [
       ...currentTasks,
@@ -32,16 +31,12 @@ const ToDoListScreen = ({ navigation }) => {
   };
 
   const editItemHandler = (toDoId, changedValue) => {
-    console.log("changing item....")
     setToDoList(currentTasks =>
       currentTasks.map(item =>
         item.id === toDoId ? { ...item, value: changedValue } : item
       )
     );
-    console.log("changed item!")
-    console.log("Closing...")
     setIsEditMode(false);
-    console.log("Closed!")
   };
 
   const editDataHandler = (toDoId, toDoValue) => {
