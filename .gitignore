@@ -1,5 +1,6 @@
 .expo
 __generated__
+.tsconfig
 
 ### ReactNative.macOS Stack ###
 # General
