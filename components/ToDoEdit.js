@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, TextInput, StyleSheet, Button, Modal, Keyboard } from "react-native";
 import ToDoItem from "./ToDoItem";
 import colors from "../constants/colors";
+import IconPicker from "../components/IconPicker";
 
 const ToDoEdit = props => {
 
@@ -9,8 +10,12 @@ const ToDoEdit = props => {
     props.onTextChange(enteredText);
   };
 
+  const iconChangeHandler = (iconObj) => {
+    props.onIconChange(iconObj);
+  }
+
   const editHandler = () => {
-    props.onEdit(props.toDoData.id, props.toDoData.value);
+    props.onEdit(props.toDoData.id, props.toDoData.value, props.toDoData.iconName, props.toDoData.iconColor);
   };
 
   return (
@@ -22,6 +27,7 @@ const ToDoEdit = props => {
           value={props.toDoData.value}
 
         />
+        <IconPicker registerIcon={iconChangeHandler} icon={{ name: props.toDoData.iconName, color: props.toDoData.iconColor }} />
         <View style={styles.buttonContainer}>
           <View style={styles.button}>
             <Button

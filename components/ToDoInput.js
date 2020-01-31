@@ -5,21 +5,32 @@ import {
   StyleSheet,
   Button,
   Modal,
-  Picker,
-  FlatList
 } from "react-native";
 import colors from "../constants/colors";
+import IconPicker from "../components/IconPicker";
 
 const ToDoInput = props => {
   const [enteredTask, setEnteredTask] = useState("");
+  const [selectedIcon, setSelectedIcon] = useState({ name: "", color: "" })
   const taskInputHander = enteredText => {
     setEnteredTask(enteredText);
   };
 
   const addToDoHandler = () => {
-    props.onAddToDo(enteredTask);
+    props.onAddToDo(enteredTask, selectedIcon);
     setEnteredTask("");
+    setSelectedIcon({ name: "", color: "" });
   };
+
+  const onCloseHandler = () => {
+    setEnteredTask("");
+    setSelectedIcon({ name: "", color: "" });
+    props.onClose();
+  }
+
+  const iconPassHandler = iconObject => {
+    setSelectedIcon(iconObject);
+  }
 
   return (
     <Modal visible={props.visible} animationType="slide">
@@ -30,12 +41,13 @@ const ToDoInput = props => {
           onChangeText={taskInputHander}
           value={enteredTask}
         />
+        <IconPicker registerIcon={iconPassHandler} icon={selectedIcon} />
         <View style={styles.buttonContainer}>
           <View style={styles.button}>
             <Button
               title={props.local.cancel}
               color={colors.red}
-              onPress={props.onClose}
+              onPress={onCloseHandler}
             />
           </View>
           <View style={styles.button}>

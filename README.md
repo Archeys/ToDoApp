@@ -12,6 +12,9 @@
 
 [gif]: ./assets/app-in-action.gif
 
+### App with icons:
+[gif]: ./assets/app-v-2.gif
+
 ### Notes: 
 - Language change is supported for ALL texts, but is only switchable in the initial screen. This was purpousefully done so due to the requirements and could easily be implemented to switch it at any screen. 
 - Navigation headers were also purposefully removed to fit the requirements and only show the initial screen on startup. 

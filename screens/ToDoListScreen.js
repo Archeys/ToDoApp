@@ -5,20 +5,21 @@ import ToDoItem from "../components/ToDoItem";
 import ToDoEdit from "../components/ToDoEdit";
 import Header from "../components/Header";
 import colors from "../constants/colors";
+import icons from '../constants/icons'
 
 const ToDoListScreen = ({ navigation }) => {
   const [toDoList, setToDoList] = useState([]);
   const [isToDoAddMode, setIsToDoAddMode] = useState(false);
   const [renderCompleteStatus, setRenderCompleteStatus] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [itemToEdit, setItemToEdit] = useState({ id: 0.1, value: "" });
+  const [itemToEdit, setItemToEdit] = useState({ id: 0.1, value: "", iconName: "", iconColor: "" });
   const [languageState, setLanguageState] = useState(navigation.getParam("lang"))
   const [username, setUserName] = useState(navigation.getParam("user"))
 
-  const addToDoHandler = ToDoTitle => {
+  const addToDoHandler = (ToDoTitle, ToDoIcon) => {
     setToDoList(currentTasks => [
       ...currentTasks,
-      { id: Math.random().toString(), value: ToDoTitle, completeStatus: false }
+      { id: Math.random().toString(), value: ToDoTitle, completeStatus: false, iconName: ToDoIcon.name, iconColor: ToDoIcon.color }
     ]);
     setIsToDoAddMode(false);
   };
@@ -31,23 +32,27 @@ const ToDoListScreen = ({ navigation }) => {
     );
   };
 
-  const editItemHandler = (toDoId, changedValue) => {
+  const editItemHandler = (toDoId, changedValue, changedIconName, changedIconColor) => {
     setToDoList(currentTasks =>
       currentTasks.map(item =>
-        item.id === toDoId ? { ...item, value: changedValue } : item
+        item.id === toDoId ? { ...item, value: changedValue, iconName: changedIconName, iconColor: changedIconColor } : item
       )
     );
     setIsEditMode(false);
   };
 
-  const editDataHandler = (toDoId, toDoValue) => {
-    setItemToEdit({ id: toDoId, value: toDoValue });
+  const editDataHandler = (toDoId, toDoValue, toDoIconName, toDoIconColor) => {
+    setItemToEdit({ id: toDoId, value: toDoValue, iconName: toDoIconName, iconColor: toDoIconColor });
 
     setIsEditMode(true);
   };
 
   const onTextEdit = (text) => {
     setItemToEdit(currentItem => currentItem = { ...currentItem, value: text })
+  }
+
+  const onIconEdit = (iconObj) => {
+    setItemToEdit(currentItem => currentItem = { ...currentItem, iconName: iconObj.name, iconColor: iconObj.color })
   }
 
   const closeToDoAdditionHandler = () => {
@@ -82,6 +87,8 @@ const ToDoListScreen = ({ navigation }) => {
               onEdit={editDataHandler}
               local={languageState}
               renderComplete={renderCompleteStatus}
+              iconName={itemData.item.iconName}
+              iconColor={itemData.item.iconColor}
             />
           )}
         ></FlatList>
@@ -99,10 +106,11 @@ const ToDoListScreen = ({ navigation }) => {
         visible={isEditMode}
         local={languageState}
         onClose={closeEditModeHandler}
+        onIconChange={onIconEdit}
       />
       <View style={styles.switchContainer}>
         <Button
-          title={!renderCompleteStatus ? languageState.showDone : languageState.showToDo}
+          title={renderCompleteStatus ? languageState.showToDo : languageState.showDone}
           onPress={() => {
             setRenderCompleteStatus(!renderCompleteStatus);
           }}
