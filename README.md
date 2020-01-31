@@ -8,12 +8,15 @@
 
 ### App in-action:
 
-![Image gone][gif]
+![Image gone][gif1]
 
-[gif]: ./assets/app-in-action.gif
+[gif1]: ./assets/app-in-action.gif
 
 ### App with icons:
-[gif]: ./assets/app-v-2.gif
+
+![Image gone][gif2]
+
+[gif2]: ./assets/app-v-2.gif
 
 ### Notes: 
 - Language change is supported for ALL texts, but is only switchable in the initial screen. This was purpousefully done so due to the requirements and could easily be implemented to switch it at any screen. 
